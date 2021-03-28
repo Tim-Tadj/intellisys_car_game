@@ -214,6 +214,7 @@ for i in range(1, 41):
     new_board.cars['A'].properties()#prints properties of car 'A' in new board
 
 move(game.boards[1], 'QD')
+print("commit change")
 
 
 #class inheritance structure
