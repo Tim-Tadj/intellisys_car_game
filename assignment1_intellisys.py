@@ -3,6 +3,8 @@ import os
 import sys
 import copy
 import time
+import queue
+
 class car(): #parameter definitions for each car in problem
     def __init__(self):
         self.isVertical = False #true if car is vertical
@@ -14,11 +16,12 @@ class car(): #parameter definitions for each car in problem
         print("Size:", self.size)
         print("Location:", self.dimension)
 
-class board(car): #contains the board
+class boardobj(car): #contains the board
     def __init__(self):
         self.board= [["." for i in range(6)] for j in range(6)] # 2d array for board
         self.solution = "" #solution read in from file
         self.cars = {} #all car types with parameters
+        self.moves_made = [] #moves made to get to this point
 
     def stringToBoard(self, str1): #make board and understand cars wihtin it
         #storing board in 2d array
@@ -89,6 +92,48 @@ class board(car): #contains the board
         print("  +-------------+")
         print("    a b c d e f ")
 
+    def win(self): #function to detect a win
+
+        return(self.board[2][5] == 'X')
+
+    def move(self, mov): #function to do a move based on mov instruction string and returns a new board
+        boardOut = copy.deepcopy(self)
+        if mov in boardOut.expand(): #if move is possible do the move
+            v_domain = boardOut.cars[mov[0]].dimension[0]
+            h_domain = boardOut.cars[mov[0]].dimension[1]
+            size = boardOut.cars[mov[0]].size
+            if mov[1] == 'U': #move up
+                boardOut.board[v_domain-1][h_domain] = mov[0]
+                boardOut.board[v_domain+size-1][h_domain] = '.'
+                boardOut.cars[mov[0]].dimension = [v_domain-1, h_domain] #update location of car
+            elif mov[1] == 'D': # move down
+                boardOut.board[v_domain+size][h_domain] = mov[0]
+                boardOut.board[v_domain][h_domain] = '.'
+                boardOut.cars[mov[0]].dimension = [v_domain+1, h_domain] #update location of car
+            elif mov[1] == 'L': #move left
+                boardOut.board[v_domain][h_domain-1] = mov[0]
+                boardOut.board[v_domain][h_domain+size-1] = '.'
+                boardOut.cars[mov[0]].dimension = [v_domain, h_domain-1] #update location of car
+            elif mov[1] == 'R': # move right
+                boardOut.board[v_domain][h_domain+size] = mov[0]
+                boardOut.board[v_domain][h_domain] = '.'
+                boardOut.cars[mov[0]].dimension = [v_domain, h_domain+1] #update location of car
+        else: #if move is not possible
+            print("WARNING: cannot do move!")
+        return boardOut
+
+    def make_moves(self, moves): #performs moves based on a list of move instructions
+        boardOut = copy.deepcopy(self)
+        for i in moves:
+            if len(i) > 2: #if multiple of same move instructions
+                multiple_move = int(i[2])
+                i_multiple = i[:-1]
+                for j in range(multiple_move):
+                    self.move(boardOut, i_multiple)
+            else:
+                self.move(boardOut, i) #if not multiple of same instruction
+        return boardOut
+
     def expand(self): 
         moves = []
         for key, car in self.cars.items():
@@ -112,9 +157,17 @@ class board(car): #contains the board
                     moves.append(move)  #add to list
         return moves
 
+    def nextstates(self):
+        next_states = []
+        moves = self.expand()
+        for i in moves: #uses moves found to make a list of boards
+            temp_board = copy.deepcopy(self) #use tempboard to append to list of boards
+            temp_board = temp_board.move(i)  #apply a move
+            temp_board.moves_made.append(i) #keep track of move
+            next_states.append(temp_board) #append to list of boards
+        return next_states
 
-
-class Game(board): #stores all game varibles
+class Game(boardobj): #stores all game boards
     def __init__(self):
         self.boards = {} #contains all problems
 
@@ -124,7 +177,7 @@ class Game(board): #stores all game varibles
 
         #add the board string to object in the dictionary that stores it as a 2d array
         for line in file: #read file
-            boardTemp = board()
+            boardTemp = boardobj()
 
             if line.startswith("--- RH-input ---"):
                 check=True
@@ -167,51 +220,44 @@ class Game(board): #stores all game varibles
         
         file.close()
 
-def move(boardIn, mov): #function to do a move based on mov instruction string and returns a new board
-    boardOut = copy.deepcopy(boardIn)
-    if mov in boardOut.expand(): #if move is possible do the move
-        v_domain = boardOut.cars[mov[0]].dimension[0]
-        h_domain = boardOut.cars[mov[0]].dimension[1]
-        size = boardOut.cars[mov[0]].size
-        if mov[1] == 'U': #move up
-            boardOut.board[v_domain-1][h_domain] = mov[0]
-            boardOut.board[v_domain+size-1][h_domain] = '.'
-            boardOut.cars[mov[0]].dimension = [v_domain-1, h_domain] #update location of car
-        elif mov[1] == 'D': # move down
-            boardOut.board[v_domain+size][h_domain] = mov[0]
-            boardOut.board[v_domain][h_domain] = '.'
-            boardOut.cars[mov[0]].dimension = [v_domain+1, h_domain] #update location of car
-        elif mov[1] == 'L': #move left
-            boardOut.board[v_domain][h_domain-1] = mov[0]
-            boardOut.board[v_domain][h_domain+size-1] = '.'
-            boardOut.cars[mov[0]].dimension = [v_domain, h_domain-1] #update location of car
-        elif mov[1] == 'R': # move right
-            boardOut.board[v_domain][h_domain+size] = mov[0]
-            boardOut.board[v_domain][h_domain] = '.'
-            boardOut.cars[mov[0]].dimension = [v_domain, h_domain+1] #update location of car
-    else: #if move is not possible
-        print("WARNING: cannot do move!")
+def BFS(initial_board):
+    BFSqueue = queue.Queue()
+    current_state  = initial_board
+    discovered = [current_state]
+    total = 0
+    while current_state.win() != True:
+        temp_nextstates = current_state.nextstates()
+        for next_state in temp_nextstates:
+            if next_state.board not in discovered:
+                BFSqueue.put(next_state)
+        total +=1
+        current_state = BFSqueue.get()
+        # print(total)
+        discovered.append(current_state.board)
 
-    return boardOut
+    return current_state
 
-def won(boardIn): #function to detect a win
-    return (boardIn.board[2][5] == 'X')
+def Iterative_d(initial_board):
+    pass
 
 game = Game()
+game.boards[40].printBoard()
+x = BFS(game.boards[40])
+x.printBoard()
 
-for i in range(1, 41):
-    #prints initial board and proposed solutions
-    print("\n  Problem", i, ":")
-    game.boards[i].printBoard()
+# for i in range(1, 41):
+#     #prints initial board and proposed solutions
+#     print("\n  Problem", i, ":")
+#     game.boards[i].printBoard()
 
-#new state example
-    print("Possible Moves:")
-    print(game.boards[i].expand(), "\n")
-    print("New state example:")
-    print("Possible states:", game.boards[1].expand())
-    new_board = move(game.boards[1] ,game.boards[1].expand()[0]) #create a new state with the first posiible move in problem 1
-    new_board.printBoard()
-    new_board.cars['A'].properties()#prints properties of car 'A' in new board
+# #new state example
+#     print("Possible Moves:")
+#     print(game.boards[i].expand(), "\n")
+#     print("New state example:")
+#     print("Possible states:", game.boards[1].expand())
+#     new_board = game.boards[1].move(game.boards[1].expand()[0]) #create a new state with the first posiible move in problem 1
+#     new_board.printBoard()
+#     new_board.cars['A'].properties()#prints properties of car 'A' in new board
 
 # move(game.boards[1], 'QD')
 
