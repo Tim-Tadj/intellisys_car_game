@@ -345,17 +345,45 @@ def Iterative_d(initial_board):
     pass
 
 game = Game()
-Qustion = 40
-#prints initial board and proposed solutions
-print("\n  Problem", Qustion, ":")
-game.boards[Qustion].printBoard()
+times = []
+lessthan3 = 0
+lessthan5  =0
+lessthan10 = 0
+other = 0
+for Qustion in range (1, 41):
+    #prints initial board and proposed solutions
+    print("\n  Problem", Qustion, ":")
+    game.boards[Qustion].printBoard()
 
-start = time.time()
-x = BFS(game.boards[Qustion])
-finish = time.time()
-x.printBoard()
-print(x.moves_made)
-print("Time taken:", finish - start)
+    start = time.time()
+    x = BFS(game.boards[Qustion])
+    finish = time.time()
+    print("Solution:")
+    x.printBoard()
+    print(x.moves_made)
+    time_taken = finish - start
+    if time_taken <3:
+        lessthan3 +=1
+    elif time_taken <5:
+        lessthan5 +=1
+    elif time_taken <10:
+        lessthan10 +=1
+    else:
+        other +=1
+
+
+    times.append(time_taken)
+    print("Time taken:", time_taken)
+
+total = 0.0
+for num in times:
+    total+= num
+average = total/len(times)
+print("Average Time Taken:", average)
+print("Less than 3s:", lessthan3)
+print("Less than 5s:", lessthan5)
+print("Less than 10s:", lessthan10)
+print("Other", other)
 
 #class inheritance structure
 #game.boards[problem_No].board

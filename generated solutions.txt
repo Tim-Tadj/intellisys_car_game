@@ -1,0 +1,1006 @@
+  Problem 1 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A A . . . O |
+2 | P . . Q . O |
+3 | P X X Q . O   ==>
+4 | P . . Q . . |
+5 | B . . . C C |
+6 | B . R R R . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6
+  +-------------+
+1 | P A A . . . |
+2 | P . . . . . |
+3 | P . . . X X   ==>
+4 | B . . Q . O |
+5 | B C C Q . O |
+6 | R R R Q . O |
+  +-------------+
+    a b c d e f
+['AR1', 'PU1', 'BU1', 'CL3', 'OD3', 'RL2', 'QD2', 'XR3']
+Time taken: 1.4643754959106445
+
+  Problem 2 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A . . O O O |
+2 | A . . B . P |
+3 | X X . B C P   ==>
+4 | Q Q Q . C P |
+5 | . . D . E E |
+6 | F F D G G . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6
+  +-------------+
+1 | O O O B C . |
+2 | A . . B C . |
+3 | A . . . X X   ==>
+4 | Q Q Q . . P |
+5 | . . D E E P |
+6 | F F D G G P |
+  +-------------+
+    a b c d e f
+['XR1', 'AD1', 'OL3', 'BU1', 'CU2', 'EL1', 'PD2', 'XR3']
+Time taken: 5.387080192565918
+
+  Problem 3 :
+    1 2 3 4 5 6
+  +-------------+
+1 | . . . . . . |
+2 | . . . . . . |
+3 | . X X O . .   ==>
+4 | . A A O . P |
+5 | . B . O . P |
+6 | . B C C . P |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6
+  +-------------+
+1 | . B . . . . |
+2 | . B . . . . |
+3 | . . . . X X   ==>
+4 | . A A O . P |
+5 | . . . O . P |
+6 | . C C O . P |
+  +-------------+
+    a b c d e f
+['OU2', 'PU3', 'AR3', 'BU1', 'CL1', 'OD3', 'XR1', 'BU3', 'XL1', 'OU3', 'AL3', 'OD3', 'PD3', 'XR3']
+Time taken: 0.7661731243133545
+
+  Problem 4 :
+    1 2 3 4 5 6
+  +-------------+
+1 | O . . P . . |
+2 | O . . P . . |
+3 | O X X P . .   ==>
+4 | . . A Q Q Q |
+5 | . . A . . B |
+6 | . . R R R B |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | O . A . . . |
+2 | O . A . . . |
+3 | O . . . X X   ==>
+4 | Q Q Q P . . |
+5 | . . . P . B |
+6 | R R R P . B |
+  +-------------+
+    a b c d e f
+['OD3', 'XL1', 'AU3', 'XR1', 'OU3', 'QL3', 'RL2', 'PD3', 'XR3']
+Time taken: 0.3810853958129883
+
+  Problem 5 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A A . O . B |
+2 | P . . O Q B |
+3 | P X X O Q G   ==>
+4 | P R R R Q G |
+5 | D . . . E E |
+6 | D . . . F F |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | P A A . . B |
+2 | P . . . . B |
+3 | P . . . X X   ==>
+4 | R R R O Q G |
+5 | D E E O Q G |
+6 | D F F O Q . |
+  +-------------+
+    a b c d e f
+['AR1', 'PU1', 'RL1', 'EL3', 'GD1', 'FL3', 'OD3', 'QD2', 'XR3']
+Time taken: 3.877263069152832
+
+  Problem 6 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A A . B . . |
+2 | C C . B O P |
+3 | . X X Q O P   ==>
+4 | D D E Q O P |
+5 | F . E Q . . |
+6 | F . . R R R |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | A A E B . . |
+2 | C C E B . . |
+3 | . . . . X X   ==>
+4 | F D D Q O P |
+5 | F . . Q O P |
+6 | R R R Q O P |
+  +-------------+
+    a b c d e f
+['XL1', 'EU3', 'DR1', 'FU1', 'RL3', 'OD2', 'PD2', 'QD1', 'XR4']
+Time taken: 2.502032518386841
+
+  Problem 7 :
+    1 2 3 4 5 6
+  +-------------+
+1 | . A B B C D |
+2 | . A . E C D |
+3 | . X X E . F   ==>
+4 | . . I I . F |
+5 | . . . H . . |
+6 | . . . H . . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | . B B E . D |
+2 | . . . E . D |
+3 | . . . . X X   ==>
+4 | . A I I C F |
+5 | . A . H C F |
+6 | . . . H . . |
+  +-------------+
+    a b c d e f
+['CD3', 'FD1', 'DD1', 'BR2', 'EU1', 'XR1', 'AD3', 'XL1', 'ED1', 'BL3', 'DU1', 'EU1', 'XR3']
+Time taken: 8.898404836654663
+
+  Problem 8 :
+    1 2 3 4 5 6
+  +-------------+
+1 | . . . A A O |
+2 | . . B B C O |
+3 | X X D E C O   ==>
+4 | F F D E G G |
+5 | H H I P P P |
+6 | K K I Q Q Q |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | A A D E C . |
+2 | B B D E C . |
+3 | . . I . X X   ==>
+4 | F F I G G O |
+5 | H H P P P O |
+6 | K K Q Q Q O |
+  +-------------+
+    a b c d e f
+['AL3', 'BL2', 'CU1', 'DU2', 'EU2', 'XR3', 'GL1', 'IU2', 'PL1', 'QL1', 'OD3', 'XR1']
+Time taken: 1.1162514686584473
+
+  Problem 9 :
+    1 2 3 4 5 6
+  +-------------+
+1 | . A B B C C |
+2 | . A . D E E |
+3 | X X . D O F   ==>
+4 | P Q Q Q O F |
+5 | P . G . O H |
+6 | P . G . . H |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | P B B C C F |
+2 | P A . E E F |
+3 | P A . . X X   ==>
+4 | Q Q Q D O . |
+5 | . . G D O H |
+6 | . . G . O H |
+  +-------------+
+    a b c d e f
+['XR1', 'OD1', 'PU3', 'QL1', 'DD2', 'EL1', 'XR1', 'AD1', 'BL1', 'CL1', 'FU2', 'XR2']
+Time taken: 0.9372117519378662
+
+  Problem 10 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A A B . C C |
+2 | D D B . . O |
+3 | P X X . . O   ==>
+4 | P Q Q Q . O |
+5 | P . . E F F |
+6 | G G . E H H |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | P A A E C C |
+2 | P D D E . . |
+3 | P . . . X X   ==>
+4 | Q Q Q . . O |
+5 | . . B F F O |
+6 | G G B H H O |
+  +-------------+
+    a b c d e f
+['CL1', 'OU1', 'XR2', 'QR2', 'BD4', 'AR1', 'DR1', 'PU2', 'XL2', 'QL3', 'OD1', 'CR1', 'EU4', 'FL1', 'HL1', 'OD2', 'XR3']
+Time taken: 2.642731189727783
+
+  Problem 11 :
+    1 2 3 4 5 6
+  +-------------+
+1 | O A A P . . |
+2 | O . . P . . |
+3 | O X X P . .   ==>
+4 | . . B Q Q Q |
+5 | . . B . . E |
+6 | . . R R R E |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | O . B . A A |
+2 | O . B . . . |
+3 | O . . . X X   ==>
+4 | Q Q Q P . E |
+5 | . . . P . E |
+6 | R R R P . . |
+  +-------------+
+    a b c d e f
+['OD3', 'XL1', 'BU2', 'QL1', 'EU3', 'QR1', 'RR1', 'BD3', 'XR1', 'OU3', 'QL3', 'PD1', 'AR3', 'PU1', 'QR3', 'OD3', 'XL1', 'BU4', 'XR1', 'OU3', 'QL3', 'ED2', 'RL3', 'PD3', 'XR3']
+Time taken: 0.8354411125183105
+
+  Problem 12 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A B B . . O |
+2 | A . P . . O |
+3 | X X P . . O   ==>
+4 | . . P Q Q Q |
+5 | . . . . C . |
+6 | R R R . C . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | B B P . C . |
+2 | A . P . C . |
+3 | A . P . X X   ==>
+4 | . . Q Q Q O |
+5 | . . . . . O |
+6 | . . R R R O |
+  +-------------+
+    a b c d e f
+['BR2', 'PU1', 'QL2', 'CU3', 'QR2', 'RR3', 'PD3', 'BL1', 'CU1', 'XR3', 'AD1', 'BL2', 'PU3', 'QL1', 'RL1', 'OD3', 'XR1']
+Time taken: 1.442652702331543
+
+  Problem 13 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A A B B C . |
+2 | . . D . C O |
+3 | . E D X X O   ==>
+4 | P E . F F O |
+5 | P . . G H H |
+6 | P I I G K K |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | A A D G B B |
+2 | . . D G . . |
+3 | . . . . X X   ==>
+4 | P E F F C O |
+5 | P E H H C O |
+6 | P I I K K O |
+  +-------------+
+    a b c d e f
+['DD2', 'OU1', 'ED1', 'XL3', 'DU2', 'FR1', 'GU3', 'FL2', 'HL2', 'CD3', 'KL1', 'OD3', 'BR2', 'DU1', 'GU1', 'XR4']
+Time taken: 14.687558889389038
+
+  Problem 14 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A A B . . . |
+2 | . . B . C C |
+3 | D E X X F G   ==>
+4 | D E H H F G |
+5 | . . I . J J |
+6 | K K I . . . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | A A B . F G |
+2 | C C B . F G |
+3 | . . . . X X   ==>
+4 | H H . . . . |
+5 | D E I . J J |
+6 | D E I K K . |
+  +-------------+
+    a b c d e f
+['DU1', 'EU1', 'HL2', 'IU1', 'KR3', 'ID1', 'HR2', 'DD3', 'ED3', 'XL2', 'HL2', 'BD2', 'CL4', 'BU2', 'FU2', 'GU2', 'XR4']
+Time taken: 23.68732738494873
+
+  Problem 15 :
+    1 2 3 4 5 6
+  +-------------+
+1 | . A A B B . |
+2 | C C D D O P |
+3 | Q R X X O P   ==>
+4 | Q R E F O P |
+5 | Q R E F G G |
+6 | . H H I I . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | A A E F B B |
+2 | C C E F D D |
+3 | Q R . . X X   ==>
+4 | Q R . . O P |
+5 | Q R G G O P |
+6 | H H I I O P |
+  +-------------+
+    a b c d e f
+['AL1', 'BR1', 'QD1', 'IR1', 'HR1', 'RD1', 'XL2', 'EU1', 'FU1', 'GL2', 'OD1', 'PD1', 'DR2', 'EU2', 'FU2', 'XR2', 'QU1', 'RU1', 'HL2', 'IL2', 'OD1', 'PD1', 'XR2']
+Time taken: 0.555535078048706
+
+  Problem 16 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A A B B C O |
+2 | D . E E C O |
+3 | D F P X X O   ==>
+4 | . F P Q Q Q |
+5 | . . P . . . |
+6 | G G . . . . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | A A P B B . |
+2 | E E P . . . |
+3 | . . P . X X   ==>
+4 | D F Q Q Q O |
+5 | D F . . C O |
+6 | G G . . C O |
+  +-------------+
+    a b c d e f
+['DD2', 'EL2', 'FD1', 'PD1', 'XL3', 'CD1', 'BR1', 'PU3', 'GR2', 'FD1', 'QL2', 'CD3', 'QR2', 'FU1', 'GL2', 'PD3', 'XR3', 'PU3', 'QL1', 'OD3', 'XR1']
+Time taken: 3.5591585636138916
+
+  Problem 17 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A O O O . . |
+2 | A . B B C C |
+3 | X X D . . .   ==>
+4 | E E D P . . |
+5 | Q Q Q P F G |
+6 | R R R P F G |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | . . D O O O |
+2 | B B D . C C |
+3 | A . . . X X   ==>
+4 | A E E P F G |
+5 | Q Q Q P F G |
+6 | R R R P . . |
+  +-------------+
+    a b c d e f
+['OR2', 'BL1', 'PU2', 'FU2', 'GU2', 'QR3', 'RR3', 'DD2', 'XR1', 'ER1', 'AD4', 'BL1', 'XL1', 'EL1', 'DU4', 'XR1', 'ER1', 'AU2', 'QL3', 'FD1', 'GD1', 'RL3', 'PD2', 'XR3']
+Time taken: 3.213387966156006
+
+  Problem 18 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A A B O . . |
+2 | C C B O . . |
+3 | P X X O . .   ==>
+4 | P Q Q Q . . |
+5 | P D D . . . |
+6 | R R R . . . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | P . B . A A |
+2 | P . B . C C |
+3 | P . . . X X   ==>
+4 | Q Q Q O . . |
+5 | . . . O D D |
+6 | R R R O . . |
+  +-------------+
+    a b c d e f
+['QR2', 'DR3', 'RR3', 'PD1', 'XL1', 'BD4', 'AR1', 'CR1', 'XR1', 'PU3', 'QL3', 'OD2', 'AR3', 'CR3', 'OU2', 'QR3', 'PD3', 'XL1', 'BU4', 'XR1', 'PU3', 'QL3', 'RL3', 'OD3', 'XR3']
+Time taken: 1.8048274517059326
+
+  Problem 19 :
+    1 2 3 4 5 6
+  +-------------+
+1 | . . A B B . |
+2 | . . A . J . |
+3 | . D X X J .   ==>
+4 | . D E E F . |
+5 | . O O O F . |
+6 | . . . . . . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | B B A . J . |
+2 | . . A . J . |
+3 | . D . . X X   ==>
+4 | . D E E F . |
+5 | . O O O F . |
+6 | . . . . . . |
+  +-------------+
+    a b c d e f
+['DU2', 'XL2', 'AD1', 'BL1', 'JU1', 'EL2', 'FU1', 'OR2', 'AD3', 'XR2', 'ER2', 'DD4', 'BL2', 'XL2', 'EL2', 'AU4', 'XR2', 'ER2', 'DU2', 'OL2', 'FD1', 'XR2']
+Time taken: 0.4190957546234131
+
+  Problem 20 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A . . O O O |
+2 | A B B C . . |
+3 | X X D C . P   ==>
+4 | . . D . . P |
+5 | . . E F F P |
+6 | . . E Q Q Q |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | A . D O O O |
+2 | A . D B B . |
+3 | . . . . X X   ==>
+4 | . . E C . P |
+5 | F F E C . P |
+6 | . . Q Q Q P |
+  +-------------+
+    a b c d e f
+['CD1', 'BR2', 'DU2', 'EU2', 'FL3', 'CD1', 'ED1', 'QL1', 'PD1', 'XR4']
+Time taken: 2.08447265625
+
+  Problem 21 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A A B O . . |
+2 | P . B O . . |
+3 | P X X O . .   ==>
+4 | P Q Q Q . . |
+5 | . . . . . . |
+6 | . . . R R R |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | P . B . A A |
+2 | P . B . . . |
+3 | P . . . X X   ==>
+4 | Q Q Q O . . |
+5 | . . . O . . |
+6 | R R R O . . |
+  +-------------+
+    a b c d e f
+['PD2', 'XL1', 'QR2', 'BD4', 'AR1', 'XR1', 'PU3', 'QL3', 'OD1', 'AR3', 'OU1', 'QR3', 'PD3', 'XL1', 'BU4', 'XR1', 'PU3', 'QL3', 'RL3', 'OD3', 'XR3']
+Time taken: 0.1940445899963379
+
+  Problem 22 :
+    1 2 3 4 5 6
+  +-------------+
+1 | . . A O O O |
+2 | B . A P C C |
+3 | B X X P . .   ==>
+4 | . D . P E E |
+5 | F D G G . H |
+6 | F Q Q Q . H |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | O O O . . H |
+2 | B C C . . H |
+3 | B . . . X X   ==>
+4 | F D A P E E |
+5 | F D A P G G |
+6 | Q Q Q P . . |
+  +-------------+
+    a b c d e f
+['BU1', 'XL1', 'FU1', 'GR1', 'AD3', 'XR1', 'BD1', 'OL3', 'PU1', 'EL1', 'HU2', 'GR1', 'QR2', 'AD1', 'DD1', 'EL2', 'PD2', 'CL3', 'PU2', 'HU2', 'ER3', 'AU1', 'DU1', 'QL3', 'PD3', 'XR3']
+Time taken: 5.527258634567261
+
+  Problem 23 :
+    1 2 3 4 5 6
+  +-------------+
+1 | . . O O O P |
+2 | . . A B B P |
+3 | . . A X X P   ==>
+4 | . . C D E E |
+5 | . . C D F F |
+6 | . . Q Q Q . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | . . A O O O |
+2 | B B A . . . |
+3 | . . . . X X   ==>
+4 | E E C D . P |
+5 | F F C D . P |
+6 | . . Q Q Q P |
+  +-------------+
+    a b c d e f
+['QL2', 'DD1', 'EL1', 'PD1', 'OR1', 'AU1', 'XL3', 'AD1', 'OL1', 'PU1', 'ER1', 'DU1', 'QR3', 'CD1', 'AD1', 'BL3', 'AU1', 'DU2', 'EL4', 'PD1', 'OR1', 'AU1', 'CU2', 'FL4', 'CD1', 'DD2', 'QL1', 'PD2', 'XR4']
+Time taken: 2.834303617477417
+
+  Problem 24 :
+    1 2 3 4 5 6
+  +-------------+
+1 | . . A B B . |
+2 | . C A . . . |
+3 | D C X X E .   ==>
+4 | D F F . E . |
+5 | O O O . G . |
+6 | H H . . G . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | B B A . E . |
+2 | . . A . E . |
+3 | . C . . X X   ==>
+4 | . C F F G . |
+5 | D O O O G . |
+6 | D . . H H . |
+  +-------------+
+    a b c d e f
+['CU1', 'DU2', 'XL2', 'AD1', 'BL1', 'EU2', 'FL1', 'GU2', 'OR3', 'HR3', 'AD3', 'XR2', 'FR2', 'CD4', 'DD4', 'BL2', 'XL2', 'FL2', 'AU4', 'XR2', 'FR2', 'CU2', 'OL2', 'GD1', 'XR2']
+Time taken: 6.686936378479004
+
+  Problem 25 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A A B . C C |
+2 | D D B . . O |
+3 | P X X . E O   ==>
+4 | P Q Q Q E O |
+5 | P F . G H H |
+6 | . F . G I I |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | A A B G C C |
+2 | D D B G . . |
+3 | . . . . X X   ==>
+4 | P Q Q Q E O |
+5 | P F H H E O |
+6 | P F . I I O |
+  +-------------+
+    a b c d e f
+['CL1', 'OU1', 'PD1', 'XL1', 'EU1', 'QR2', 'BD4', 'AR1', 'DR1', 'XR1', 'PU3', 'QL3', 'GU3', 'QR3', 'PD3', 'AL1', 'DL1', 'XL1', 'BU4', 'QL2', 'HL2', 'ED2', 'IL1', 'OD3', 'CR1', 'GU1', 'XR4']
+Time taken: 15.271559238433838
+
+  Problem 26 :
+    1 2 3 4 5 6
+  +-------------+
+1 | . A . O O O |
+2 | B A . C P . |
+3 | B X X C P D   ==>
+4 | E R R R P D |
+5 | E . F . . G |
+6 | . . F H H G |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | O O O C . D |
+2 | B A . C . D |
+3 | B A . . X X   ==>
+4 | E R R R P . |
+5 | E . F . P G |
+6 | H H F . P G |
+  +-------------+
+    a b c d e f
+['OL1', 'DU2', 'ED1', 'RL1', 'GU1', 'HR1', 'CD3', 'XR1', 'AD1', 'OL2', 'PU1', 'RR2', 'AD3', 'XL1', 'RL2', 'CU4', 'XR1', 'HL1', 'GD1', 'RR3', 'AU3', 'EU1', 'FU1', 'HL3', 'FD1', 'RL2', 'PD3', 'XR2']
+Time taken: 6.475103139877319
+
+  Problem 27 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A B B O . . |
+2 | A C C O . . |
+3 | X X D O . P   ==>
+4 | . . D E E P |
+5 | . . F . . P |
+6 | . . F R R R |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | B B D . . . |
+2 | A . D C C . |
+3 | A . . . X X   ==>
+4 | E E F O . P |
+5 | . . F O . P |
+6 | R R R O . P |
+  +-------------+
+    a b c d e f
+['PU2', 'ER1', 'OD2', 'BR2', 'CR2', 'DU2', 'XR1', 'AD4', 'XL1', 'DD2', 'BL3', 'CL3', 'OU2', 'DU1', 'EL4', 'OD2', 'DD1', 'CR3', 'DU2', 'XR1', 'ER1', 'AU3', 'EL1', 'FU1', 'RL3', 'OD1', 'PD3', 'XR3']
+Time taken: 3.092237949371338
+
+  Problem 28 :
+    1 2 3 4 5 6
+  +-------------+
+1 | O O O A . . |
+2 | . . P A B B |
+3 | X X P . . .   ==>
+4 | C D P E E Q |
+5 | C D R R R Q |
+6 | F F G G . Q |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | O O O A . . |
+2 | B B P A . . |
+3 | . . P . X X   ==>
+4 | C D P E E Q |
+5 | C D R R R Q |
+6 | F F . G G Q |
+  +-------------+
+    a b c d e f
+['AD1', 'OR3', 'PU1', 'QU1', 'GR2', 'FR2', 'CD1', 'DD1', 'EL3', 'AD1', 'BL1', 'QU1', 'RR1', 'PD2', 'BL3', 'AU1', 'PU2', 'ER3', 'CU1', 'DU1', 'FL2', 'PD3', 'OL3', 'AU1', 'XR3', 'PU2', 'RL1', 'GL1', 'QD2', 'XR1']
+Time taken: 2.733137369155884
+
+  Problem 29 :
+    1 2 3 4 5 6
+  +-------------+
+1 | O O O . P . |
+2 | . . A . P . |
+3 | X X A . P B   ==>
+4 | C D D E E B |
+5 | C F F G . H |
+6 | R R R G . H |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | C . O O O B |
+2 | C . A . . B |
+3 | . . A . X X   ==>
+4 | D D E E P . |
+5 | . F F G P H |
+6 | R R R G P H |
+  +-------------+
+    a b c d e f
+['OR1', 'BU1', 'ER1', 'GU3', 'EL1', 'FR2', 'HU1', 'RR3', 'CD1', 'DL1', 'AD3', 'XR1', 'DR1', 'CU4', 'XL1', 'DL1', 'AU3', 'FL2', 'RL3', 'HD1', 'ER1', 'GD3', 'EL2', 'PD3', 'OR2', 'AU1', 'XR3', 'AD1', 'OL1', 'BU1', 'XR1']
+Time taken: 6.596315622329712
+
+  Problem 30 :
+    1 2 3 4 5 6
+  +-------------+
+1 | O . A P P P |
+2 | O . A B . . |
+3 | O X X B . .   ==>
+4 | C C D D . Q |
+5 | . . . . . Q |
+6 | E E F F . Q |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | P P P B . . |
+2 | O . . B . . |
+3 | O . . . X X   ==>
+4 | O C C D D Q |
+5 | . . A . . Q |
+6 | E E A F F Q |
+  +-------------+
+    a b c d e f
+['DR1', 'CR1', 'QU1', 'FR2', 'ER1', 'OD3', 'XL1', 'AD1', 'PL1', 'QU2', 'DR1', 'BD3', 'DL1', 'QD1', 'PR1', 'AU1', 'XR3', 'OU3', 'CL1', 'EL1', 'AD4', 'XL2', 'CR1', 'OD1', 'PL3', 'QU1', 'DR1', 'BU4', 'DL1', 'FL1', 'QD3', 'XR3']
+Time taken: 1.3012926578521729
+
+  Problem 31 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A A . O O O |
+2 | . . . B C C |
+3 | D X X B . P   ==>
+4 | D . Q E E P |
+5 | F F Q . . P |
+6 | . . Q R R R |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | D A A O O O |
+2 | D . . C C . |
+3 | . . Q . X X   ==>
+4 | E E Q B . P |
+5 | F F Q B . P |
+6 | . . R R R P |
+  +-------------+
+    a b c d e f
+['AR1', 'DU2', 'XL1', 'QU2', 'FR3', 'QD2', 'XR1', 'DD4', 'AL1', 'XL1', 'QU3', 'EL3', 'BD1', 'CL1', 'PU1', 'QD3', 'FR1', 'BD1', 'XR3', 'QU3', 'ER1', 'DU3', 'EL1', 'QD3', 'AR1', 'DU1', 'XL3', 'BU1', 'QU2', 'FL4', 'BD1', 'QD2', 'XR3', 'QU1', 'RL1', 'PD2', 'XR1']
+Time taken: 5.124331474304199
+
+  Problem 32 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A A O B C C |
+2 | . . O B . . |
+3 | X X O . . .   ==>
+4 | D E E F F P |
+5 | D . . K . P |
+6 | H H . K . P |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | D A A B C C |
+2 | D . . B . . |
+3 | . . . . X X   ==>
+4 | E E O F F P |
+5 | . . O K . P |
+6 | H H O K . P |
+  +-------------+
+    a b c d e f
+['BD1', 'CL1', 'PU3', 'FR1', 'KU1', 'HR4', 'DD1', 'EL1', 'OD3', 'KD1', 'FL1', 'PD1', 'CR1', 'BU1', 'XR3', 'OU3', 'ER1', 'DU3', 'EL1', 'OD3', 'AR1', 'DU1', 'XL3', 'OU1', 'BD1', 'CL1', 'PU1', 'FR1', 'KU1', 'HL4', 'OD1', 'KD1', 'FL1', 'PD3', 'CR1', 'BU1', 'XR4']
+Time taken: 0.4811079502105713
+
+  Problem 33 :
+    1 2 3 4 5 6
+  +-------------+
+1 | . A R . B B |
+2 | . A R . . . |
+3 | X X R . . .   ==>
+4 | I D D E E P |
+5 | I F F G H P |
+6 | Q Q Q G H P |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | I A B B H . |
+2 | I A . . H . |
+3 | . . R . X X   ==>
+4 | D D R E E P |
+5 | F F R G . P |
+6 | Q Q Q G . P |
+  +-------------+
+    a b c d e f
+['BL1', 'PU3', 'ER1', 'GU3', 'QR1', 'ID1', 'DL1', 'EL2', 'HU3', 'ER2', 'FR3', 'GD2', 'QR2', 'RD3', 'BL1', 'HU1', 'XR3', 'AD1', 'BL2', 'RU3', 'DR1', 'IU3', 'DL1', 'RD3', 'BR2', 'AU1', 'IU1', 'XL3', 'RU2', 'GU1', 'FL4', 'RD2', 'GD1', 'XR3', 'RU1', 'QL3', 'GD1', 'EL1', 'PD3', 'XR1']
+Time taken: 6.172367095947266
+
+  Problem 34 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A . . R R R |
+2 | A . . B . P |
+3 | X X . B C P   ==>
+4 | Q Q Q D C P |
+5 | . . E D F F |
+6 | I I E H H . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | R R R B C . |
+2 | A . . B C . |
+3 | A . . . X X   ==>
+4 | Q Q Q D . P |
+5 | F F E D . P |
+6 | I I E H H P |
+  +-------------+
+    a b c d e f
+['RL1', 'PU1', 'XR1', 'CU1', 'HR1', 'DD1', 'QR3', 'AD3', 'RL2', 'BU1', 'XL1', 'EU3', 'IR1', 'AD1', 'QL3', 'PD1', 'DU2', 'FL3', 'DD2', 'BD1', 'RR3', 'QR1', 'EU1', 'XR1', 'AU4', 'XL1', 'ED1', 'RL1', 'PU1', 'QR2', 'FL1', 'IL1', 'ED3', 'XR1', 'AD1', 'RL2', 'BU1', 'CU1', 'QL3', 'DU1', 'HL1', 'PD3', 'XR3']
+Time taken: 6.224361419677734
+
+  Problem 35 :
+    1 2 3 4 5 6
+  +-------------+
+1 | . . O A A P |
+2 | . . O B . P |
+3 | X X O B . P   ==>
+4 | K Q Q Q . . |
+5 | K D D E F . |
+6 | G G . E F . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | A A O B F . |
+2 | K . O B F . |
+3 | K . O . X X   ==>
+4 | . . Q Q Q P |
+5 | D D . E . P |
+6 | G G . E . P |
+  +-------------+
+    a b c d e f
+['PD1', 'AR1', 'BU1', 'FU3', 'GR1', 'KD1', 'QL1', 'EU2', 'DR3', 'ED2', 'BD1', 'AL1', 'PU1', 'QR3', 'KU1', 'GL1', 'OD3', 'XR1', 'KU3', 'XL1', 'OU3', 'QL3', 'PD1', 'AR1', 'BU1', 'EU2', 'DL4', 'ED2', 'BD1', 'AL1', 'PU1', 'QR3', 'OD3', 'AL2', 'BU1', 'FU1', 'XR3', 'KD1', 'AL1', 'OU3', 'QL1', 'PD3', 'XR1']
+Time taken: 5.078702449798584
+
+  Problem 36 :
+    1 2 3 4 5 6
+  +-------------+
+1 | O P P P A A |
+2 | O B C C . Q |
+3 | O B X X . Q   ==>
+4 | R R R D . Q |
+5 | . . E D F F |
+6 | G G E . . . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | P P P D A A |
+2 | O C C D . . |
+3 | O . . . X X   ==>
+4 | O R R R . Q |
+5 | . B E F F Q |
+6 | . B E G G Q |
+  +-------------+
+    a b c d e f
+['CR1', 'XR1', 'DD1', 'RR1', 'OD1', 'PL1', 'AL1', 'QU1', 'RR2', 'EU3', 'RL1', 'QD1', 'AR1', 'PR1', 'OU1', 'RL2', 'DU1', 'GR4', 'DD1', 'RR1', 'OD1', 'PL1', 'AL1', 'QU1', 'RR2', 'BD3', 'ED3', 'CL2', 'XL2', 'RL1', 'QD1', 'AR1', 'PR1', 'OU1', 'RL2', 'DU3', 'RR1', 'OD1', 'PL1', 'DU1', 'FL1', 'GL1', 'QD2', 'XR3']
+Time taken: 3.553417444229126
+
+  Problem 37 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A A B . C C |
+2 | D D B . O P |
+3 | Q X X . O P   ==>
+4 | Q R R R O P |
+5 | Q . . E F F |
+6 | G G . E H H |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | A A B E C C |
+2 | D D B E . . |
+3 | Q . . . X X   ==>
+4 | Q R R R O P |
+5 | Q . F F O P |
+6 | G G H H O P |
+  +-------------+
+    a b c d e f
+['GR1', 'QD1', 'XL1', 'BD1', 'CL2', 'OU1', 'PU1', 'RR2', 'BD2', 'DR1', 'XR1', 'QU1', 'GL1', 'BD1', 'RL2', 'OD1', 'CR1', 'AR1', 'QU2', 'RL1', 'EU3', 'RR1', 'QD1', 'AL1', 'CL1', 'OU1', 'RR2', 'BU1', 'GR1', 'QD2', 'DL1', 'XL1', 'BU2', 'RL2', 'OD1', 'CR1', 'BU1', 'XR1', 'QU1', 'FL2', 'GL1', 'HL2', 'OD2', 'PD3', 'CR1', 'EU1', 'XR3']
+Time taken: 2.6410605907440186
+
+  Problem 38 :
+    1 2 3 4 5 6
+  +-------------+
+1 | A . . O O O |
+2 | A B B C . . |
+3 | X X D C . R   ==>
+4 | . . D E E R |
+5 | . . F G G R |
+6 | . . F Q Q Q |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6 
+  +-------------+
+1 | A . D O O O |
+2 | A . D B B . |
+3 | . . . . X X   ==>
+4 | E E F C . R |
+5 | G G F C . R |
+6 | . . Q Q Q R |
+  +-------------+
+    a b c d e f
+['OL1', 'RU2', 'ER1', 'CD1', 'BR2', 'DU1', 'FU1', 'GR1', 'QL3', 'CD2', 'EL1', 'RD1', 'OR1', 'DU1', 'XR1', 'AD3', 'XL1', 'DD1', 'OL1', 'RU1', 'ER1', 'CU1', 'QR3', 'AD1', 'FD1', 'DD1', 'BL3', 'CU2', 'DU1', 'EL4', 'CD1', 'DD1', 'BR3', 'RD1', 'OR1', 'DU2', 'XR1', 'ER1', 'AU4', 'XL1', 'EL1', 'FU2', 'GL4', 'CD1', 'FD1', 'QL1', 'RD2', 'XR4']
+Time taken: 4.5826194286346436
+
+  Problem 39 :
+    1 2 3 4 5 6
+  +-------------+
+1 | . . A O O O |
+2 | . . A B . . |
+3 | X X C B . R   ==>
+4 | D D C E E R |
+5 | F G H H . R |
+6 | F G I I . . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6
+  +-------------+
+1 | F G A O O O |
+2 | F G A . . . |
+3 | . . . . X X   ==>
+4 | D D C E E R |
+5 | H H C B . R |
+6 | . I I B . R |
+  +-------------+
+    a b c d e f
+['RU1', 'HR2', 'IR2', 'CD2', 'AD1', 'OL1', 'RU1', 'ER1', 'BD3', 'EL1', 'RD1', 'OR1', 'AU1', 'XR3', 'AD1', 'OL1', 'RU1', 'ER1', 'DR2', 'FU4', 'GU4', 'DL2', 'EL1', 'RD1', 'OR1', 'AU1', 'XL3', 'AD1', 'OL1', 'RU1', 'ER1', 'BU3', 'EL1', 'RD1', 'OR1', 'AU1', 'CU2', 'HL4', 'CD1', 'AD1', 'OL1', 'RU1', 'ER1', 'IL3', 'BD3', 'EL1', 'RD3', 'OR1', 'AU1', 'XR4']
+Time taken: 4.106286525726318
+
+  Problem 40 :
+    1 2 3 4 5 6
+  +-------------+
+1 | O A A . B . |
+2 | O C D . B P |
+3 | O C D X X P   ==>
+4 | Q Q Q E . P |
+5 | . . F E G G |
+6 | H H F I I . |
+  +-------------+
+    a b c d e f
+Solution:
+    1 2 3 4 5 6
+  +-------------+
+1 | A A D E B . |
+2 | . . D E B . |
+3 | O . . . X X   ==>
+4 | O C Q Q Q P |
+5 | O C F G G P |
+6 | H H F I I P |
+  +-------------+
+    a b c d e f
+['PU1', 'IR1', 'ED1', 'QR3', 'CD2', 'FU1', 'HR1', 'OD3', 'AL1', 'DU1', 'XL3', 'BD1', 'DD1', 'AR3', 'DU1', 'XR2', 'OU3', 'CU3', 'XL1', 'HL1', 'FD1', 'QL3', 'PD1', 'AR1', 'EU4', 'XR1', 'QR2', 'CD3', 'XL1', 'ED1', 'AL1', 'PU1', 'QR1', 'FU1', 'GL1', 'HR1', 'OD3', 'XL1', 'DD1', 'AL3', 'BU1', 'DU1', 'XR1', 'OU1', 'EU1', 'HL1', 'FD1', 'QL1', 'IL1', 'PD3', 'XR3']
+Time taken: 4.258613348007202
+
+Average Time Taken: 4.166021764278412
+
+Less than 3s: 21
+Less than 5s: 8
+Less than 10s: 8
+Other: 3
