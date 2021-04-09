@@ -93,7 +93,6 @@ class boardobj(car): #contains the board
         print("    a b c d e f ")
 
     def win(self): #function to detect a win
-
         return(self.board[2][5] == 'X')
 
     def move(self, mov): #function to do a move based on mov instruction string and returns a new board
@@ -107,7 +106,7 @@ class boardobj(car): #contains the board
                 boardOut.board[v_domain+size-1][h_domain] = '.'
                 boardOut.cars[mov[0]].dimension = [v_domain-1, h_domain] #update location of car
             elif mov[1] == 'D': # move down
-                boardOut.board[v_domain+size][h_domain] = mov[0]
+                boardOut.board[v_domain+size][h_domain] =   mov[0]
                 boardOut.board[v_domain][h_domain] = '.'
                 boardOut.cars[mov[0]].dimension = [v_domain+1, h_domain] #update location of car
             elif mov[1] == 'L': #move left
@@ -122,16 +121,13 @@ class boardobj(car): #contains the board
             print("WARNING: cannot do move!")
         return boardOut
 
-    def make_moves(self, moves): #performs moves based on a list of move instructions
+    def make_move(self, i_move): #performs moves based on a list of move instructions
         boardOut = copy.deepcopy(self)
-        for i in moves:
-            if len(i) > 2: #if multiple of same move instructions
-                multiple_move = int(i[2])
-                i_multiple = i[:-1]
-                for j in range(multiple_move):
-                    self.move(boardOut, i_multiple)
-            else:
-                self.move(boardOut, i) #if not multiple of same instruction
+        NumMoves = int(i_move[2])
+        i_multiple = i_move[:-1]
+        count = 0
+        for j in range(NumMoves):
+            boardOut = boardOut.move(i_multiple)
         return boardOut
 
     def expand(self): 
@@ -157,15 +153,47 @@ class boardobj(car): #contains the board
                     moves.append(move)  #add to list
         return moves
 
+    def expand_multiple(self):
+        moves = []
+        for key, car in self.cars.items():
+            
+            #look for move at head of car
+            boarder = car.dimension[car.isHorizontal]+1
+            for i in range(1, boarder):
+                h_domain = car.dimension[0] - car.isVertical * i
+                v_domain = car.dimension[1] - car.isHorizontal * i
+                if(h_domain >= 0 and v_domain >=0):
+                    if (self.board[h_domain][v_domain] == '.'): #check position before head of car
+                        move = ""
+                        move += key + car.isVertical * 'U' + car.isHorizontal * 'L' + str(i)#make move symbol
+                        moves.append(move) #add to list
+                    else:
+                        break
+            
+            #look for move at tail of car
+            boarder = (6 - car.dimension[car.isHorizontal] - car.size)
+            for i in range(0, boarder):
+                h_domain = car.dimension[0] + (car.isVertical * (car.size + i))
+                v_domain = car.dimension[1] + (car.isHorizontal * (car.size + i))
+                if(h_domain < 6 and v_domain < 6):
+                    if (self.board[h_domain][v_domain] == '.'):
+                        move = ""
+                        move += key + car.isVertical * 'D' + car.isHorizontal * 'R' + str(i+1)#make move symbol
+                        moves.append(move)  #add to list
+                    else:
+                        break
+        return moves
+
     def nextstates(self):
         next_states = []
-        moves = self.expand()
+        moves = self.expand_multiple()
         for i in moves: #uses moves found to make a list of boards
             temp_board = copy.deepcopy(self) #use tempboard to append to list of boards
-            temp_board = temp_board.move(i)  #apply a move
+            temp_board = temp_board.make_move(i)  #apply a move
             temp_board.moves_made.append(i) #keep track of move
             next_states.append(temp_board) #append to list of boards
-        return next_states
+        return next_states    
+    
 
 class Game(boardobj): #stores all game boards
     def __init__(self):
@@ -222,33 +250,57 @@ class Game(boardobj): #stores all game boards
 
 def BFS(initial_board):
     BFSqueue = queue.Queue()
-    current_state  = initial_board
-    discovered = [current_state]
-    total = 0
-    while current_state.win() != True:
-        temp_nextstates = current_state.nextstates()
-        for next_state in temp_nextstates:
-            if next_state.board not in discovered:
-                BFSqueue.put(next_state)
-        total +=1
+    BFSqueue.put(initial_board)
+    current_state = initial_board
+    discovered = []
+    while not current_state.win() and not BFSqueue.empty():
         current_state = BFSqueue.get()
-        # print(total)
-        discovered.append(current_state.board)
-
+        print(current_state.moves_made)
+        temp_nextstates = current_state.nextstates()
+        
+        if current_state.board not in discovered:
+            for next_state in temp_nextstates:
+                BFSqueue.put(next_state)
+            discovered.append(current_state.board)
     return current_state
 
+def DFS(initial_board):
+    DFSstack = queue.LifoQueue()
+    DFSstack.put(initial_board)
+    current_state = initial_board
+    discovered = []
+    while not current_state.win() and not DFSstack.empty():
+        current_state = DFSstack.get()
+        temp_nextstates = current_state.nextstates()
+        if current_state.board not in discovered:
+            for next_state in temp_nextstates:
+                DFSstack.put(next_state)
+            discovered.append(current_state.board)
+    return current_state
+
+    
 def Iterative_d(initial_board):
+    
     pass
 
 game = Game()
-game.boards[40].printBoard()
-x = BFS(game.boards[40])
+game.boards[1].printBoard()
+
+start = time.time()
+x =BFS(game.boards[1])
+finish = time.time()
+
 x.printBoard()
+print(x.moves_made)
+print("Time taken:", finish - start)
 
 # for i in range(1, 41):
 #     #prints initial board and proposed solutions
 #     print("\n  Problem", i, ":")
 #     game.boards[i].printBoard()
+#     x = DFS(game.boards[i])
+#     x.printBoard()
+#     print(x.moves_made)
 
 # #new state example
 #     print("Possible Moves:")
