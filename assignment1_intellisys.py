@@ -72,6 +72,13 @@ class boardobj(car): #contains the board
                         self.cars[key].dimension = [5,j] #define location
                         key_done=True
         return self
+    
+    def boardToString(self):
+        result = ""
+        for i in self.board:
+            for j in i:
+                result += j
+        return result
 
     def stringToSolution(self, str1): #assign string to solution var
         self.solution = str1
@@ -153,7 +160,7 @@ class boardobj(car): #contains the board
                     moves.append(move)  #add to list
         return moves
 
-    def expand_multiple(self):
+    def expand_multiple(self): 
         moves = []
         for key, car in self.cars.items():
             
@@ -192,7 +199,7 @@ class boardobj(car): #contains the board
             temp_board = temp_board.make_move(i)  #apply a move
             temp_board.moves_made.append(i) #keep track of move
             next_states.append(temp_board) #append to list of boards
-        return next_states    
+        return next_states
     
 
 class Game(boardobj): #stores all game boards
@@ -252,16 +259,19 @@ def BFS(initial_board):
     BFSqueue = queue.Queue()
     BFSqueue.put(initial_board)
     current_state = initial_board
-    discovered = []
+    discovered = set()
+    count = 0
     while not current_state.win() and not BFSqueue.empty():
+        count +=1
+        # print(count, end = " ")
         current_state = BFSqueue.get()
-        print(current_state.moves_made)
-        temp_nextstates = current_state.nextstates()
-        
-        if current_state.board not in discovered:
+        # print(current_state.moves_made)  
+        stringboard= current_state.boardToString()
+        if stringboard not in discovered:
+            temp_nextstates = current_state.nextstates()
             for next_state in temp_nextstates:
                 BFSqueue.put(next_state)
-            discovered.append(current_state.board)
+            discovered.add(stringboard)
     return current_state
 
 def DFS(initial_board):
@@ -284,23 +294,26 @@ def Iterative_d(initial_board):
     pass
 
 game = Game()
-game.boards[1].printBoard()
+# game.boards[40].printBoard()
 
-start = time.time()
-x =BFS(game.boards[1])
-finish = time.time()
+# start = time.time()
+# x =BFS(game.boards[40])
+# finish = time.time()
 
-x.printBoard()
-print(x.moves_made)
-print("Time taken:", finish - start)
+# x.printBoard()
+# print(x.moves_made)
+# print("Time taken:", finish - start)
 
-# for i in range(1, 41):
-#     #prints initial board and proposed solutions
-#     print("\n  Problem", i, ":")
-#     game.boards[i].printBoard()
-#     x = DFS(game.boards[i])
-#     x.printBoard()
-#     print(x.moves_made)
+for i in range(1, 41):
+    #prints initial board and proposed solutions
+    print("\n  Problem", i, ":")
+    game.boards[i].printBoard()
+    start = time.time()
+    x = BFS(game.boards[i])
+    finish = time.time()
+    x.printBoard()
+    print(x.moves_made)
+    print("Time taken:", finish - start)
 
 # #new state example
 #     print("Possible Moves:")
