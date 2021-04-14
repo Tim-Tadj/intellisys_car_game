@@ -275,6 +275,16 @@ def Iterative_d(initial_board):
         if result !=False:
             return result
 
+A_star(initial_board):
+    Prio_Q = queue.PriorityQueue()
+    Prio_Q.put((1, initial_board))
+    current_state = initial_board
+    discovered = set()
+
+    while not Prio_Q.empty():
+        current_state = Prio_Q.get()[1]
+        
+
 
 game = Game()
 
