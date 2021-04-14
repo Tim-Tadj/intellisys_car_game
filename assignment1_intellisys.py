@@ -102,98 +102,8 @@ class boardobj(car): #contains the board
     def win(self): #function to detect a win
         return(self.board[2][5] == 'X')
 
-    def move(self, mov): #function to do a move based on mov instruction string and returns a new board
-        boardOut = copy.deepcopy(self)
-        if mov in boardOut.expand(): #if move is possible do the move
-            v_domain = boardOut.cars[mov[0]].dimension[0]
-            h_domain = boardOut.cars[mov[0]].dimension[1]
-            size = boardOut.cars[mov[0]].size
-            if mov[1] == 'U': #move up
-                boardOut.board[v_domain-1][h_domain] = mov[0]
-                boardOut.board[v_domain+size-1][h_domain] = '.'
-                boardOut.cars[mov[0]].dimension = [v_domain-1, h_domain] #update location of car
-            elif mov[1] == 'D': # move down
-                boardOut.board[v_domain+size][h_domain] =   mov[0]
-                boardOut.board[v_domain][h_domain] = '.'
-                boardOut.cars[mov[0]].dimension = [v_domain+1, h_domain] #update location of car
-            elif mov[1] == 'L': #move left
-                boardOut.board[v_domain][h_domain-1] = mov[0]
-                boardOut.board[v_domain][h_domain+size-1] = '.'
-                boardOut.cars[mov[0]].dimension = [v_domain, h_domain-1] #update location of car
-            elif mov[1] == 'R': # move right
-                boardOut.board[v_domain][h_domain+size] = mov[0]
-                boardOut.board[v_domain][h_domain] = '.'
-                boardOut.cars[mov[0]].dimension = [v_domain, h_domain+1] #update location of car
-        else: #if move is not possible
-            print("WARNING: cannot do move!")
-        return boardOut
-
-    def make_move(self, i_move): #performs moves based on a list of move instructions
-        boardOut = copy.deepcopy(self)
-        NumMoves = int(i_move[2])
-        i_multiple = i_move[:-1]
-        count = 0
-        for j in range(NumMoves):
-            boardOut = boardOut.move(i_multiple)
-        return boardOut
-
     def expand(self): 
-        moves = []
-        for key, car in self.cars.items():
-            
-            #look for move at head of car
-            h_domain = car.dimension[0] - car.isVertical
-            v_domain = car.dimension[1] - car.isHorizontal
-            if(h_domain >= 0 and v_domain >=0):
-                if (self.board[h_domain][v_domain] == '.'): #check position before head of car
-                    move = ""
-                    move += key + car.isVertical * 'U' + car.isHorizontal * 'L' #make move symbol
-                    moves.append(move) #add to list
-            
-            #loof for move at tail of car
-            h_domain = car.dimension[0] + (car.isVertical * car.size)
-            v_domain = car.dimension[1] + (car.isHorizontal * car.size)
-            if(h_domain < 6 and v_domain < 6):
-                if (self.board[h_domain][v_domain] == '.'):
-                    move = ""
-                    move += key + car.isVertical * 'D' + car.isHorizontal * 'R' #make move symbol
-                    moves.append(move)  #add to list
-        return moves
-
-    def expand_multiple(self): 
-        moves = []
-        for key, car in self.cars.items():
-            
-            #look for move at head of car
-            boarder = car.dimension[car.isHorizontal]+1
-            for i in range(1, boarder):
-                h_domain = car.dimension[0] - car.isVertical * i
-                v_domain = car.dimension[1] - car.isHorizontal * i
-                if(h_domain >= 0 and v_domain >=0):
-                    if (self.board[h_domain][v_domain] == '.'): #check position before head of car
-                        move = ""
-                        move += key + car.isVertical * 'U' + car.isHorizontal * 'L' + str(i)#make move symbol
-                        moves.append(move) #add to list
-                    else:
-                        break
-            
-            #look for move at tail of car
-            boarder = (6 - car.dimension[car.isHorizontal] - car.size)
-            for i in range(0, boarder):
-                h_domain = car.dimension[0] + (car.isVertical * (car.size + i))
-                v_domain = car.dimension[1] + (car.isHorizontal * (car.size + i))
-                if(h_domain < 6 and v_domain < 6):
-                    if (self.board[h_domain][v_domain] == '.'):
-                        move = ""
-                        move += key + car.isVertical * 'D' + car.isHorizontal * 'R' + str(i+1)#make move symbol
-                        moves.append(move)  #add to list
-                    else:
-                        break
-        return moves
-
-    def expand_multiple_test(self): 
         next_states = []
-        moves = []
         for key, car in self.cars.items():
             if self.moves_made:
                 if self.moves_made[-1][-3] == key:
@@ -209,7 +119,6 @@ class boardobj(car): #contains the board
                         move = ""
                         movNum = i
                         move += key + car.isVertical * 'U' + car.isHorizontal * 'L' + str(movNum)#make move symbol
-                        moves.append(move) #add to list
                         temp_board = copy.deepcopy(self) #use tempboard to append to list of boards
                         temp_board.moves_made.append(move) #keep track of move
                         for j in range(car.size):
@@ -233,7 +142,6 @@ class boardobj(car): #contains the board
                         move = ""
                         movNum = i
                         move += key + car.isVertical * 'D' + car.isHorizontal * 'R' + str(movNum)#make move symbol
-                        moves.append(move)  #add to list
                         temp_board = copy.deepcopy(self) #use tempboard to append to list of boards
                         temp_board.moves_made.append(move) #keep track of move
                         for j in range(car.size):
@@ -245,16 +153,6 @@ class boardobj(car): #contains the board
                         next_states.append(temp_board) #append to list of boards
                     else:
                         break
-        return next_states
-
-    def nextstates(self):
-        next_states = []
-        moves = self.expand_multiple()
-        for i in moves: #uses moves found to make a list of boards
-            temp_board = copy.deepcopy(self) #use tempboard to append to list of boards
-            temp_board = temp_board.make_move(i)  #apply a move
-            temp_board.moves_made.append(i) #keep track of move
-            next_states.append(temp_board) #append to list of boards
         return next_states
     
 
@@ -327,7 +225,7 @@ def BFS(initial_board):
 
         stringboard= current_state.boardToString()
         if stringboard not in discovered:
-            temp_nextstates = current_state.expand_multiple_test()
+            temp_nextstates = current_state.expand()
             count += 1
             
             for next_state in temp_nextstates:
@@ -352,80 +250,83 @@ def DFS(initial_board):
 def DepthLimitedSearch(initial_board, depth_limit):
     DLSstack = [initial_board]
     current_state = initial_board
-    discovered = set()
-    SENTINEL = object()
+    discovered = dict()
     while DLSstack:
         current_state = DLSstack.pop()
-        if current_state == SENTINEL:
-            depth_limit +=1
-        elif current_state.win():
+        if current_state.win():
             return current_state
-        elif depth_limit != 0:
-            print(current_state.moves_made)
-            depth_limit -=1
-            DLSstack.append(SENTINEL)
-            stringboard= current_state.boardToString()
-            if stringboard not in discovered:
-                temp_nextstates = current_state.expand_multiple_test()
-                for next_state in temp_nextstates:
-                    DLSstack.append(next_state)
-                discovered.add(stringboard)
+
+        # print(current_state.moves_made)
+        stringboard= current_state.boardToString()
+        if (stringboard not in discovered or len(current_state.moves_made) < discovered[stringboard]) and len(current_state.moves_made) < depth_limit:
+            temp_nextstates = current_state.expand()
+            for next_state in temp_nextstates:
+                
+                DLSstack.append(next_state)
+            discovered[stringboard] = len(current_state.moves_made)
 
     return False
     
 def Iterative_d(initial_board):
-    
-    pass
+    count = 0
+    while True:
+        count +=1
+        result = DepthLimitedSearch(initial_board, count)
+        if result !=False:
+            return result
+
 
 game = Game()
 
-# x = game.boards[1]
-
-# x = BFS(x)
-# if x is not False:
-#     print(x.moves_made)
-
-
-
-times = []
-lessthan3 = 0
-lessthan5  =0
-lessthan10 = 0
-other = 0
-for Qustion in range (1, 41):
-    #prints initial board and proposed solutions
-    print("\n  Problem", Qustion, ":")
-    game.boards[Qustion].printBoard()
-
-    start = time.time()
-    x = BFS(game.boards[Qustion])
-    finish = time.time()
-    print("Solution:")
-    x.printBoard()
+x = game.boards[13]
+start =  time.time()
+x = Iterative_d(x)
+finish = time.time()
+if x is not False:
     print(x.moves_made)
-    time_taken = finish - start
-    if time_taken <3:
-        lessthan3 +=1
-    elif time_taken <5:
-        lessthan5 +=1
-    elif time_taken <10:
-        lessthan10 +=1
-    else:
-        other +=1
+    print(finish-start)
 
 
-    times.append(time_taken)
-    print("Time taken:", time_taken)
 
-total = 0.0
-for num in times:
-    total+= num
-average = total/len(times)
-print("Average Time Taken:", average)
-print("Less than 3s:", lessthan3)
-print("Less than 5s:", lessthan5)
-print("Less than 10s:", lessthan10)
-print("Other", other)
+# times = []
+# lessthan3 = 0
+# lessthan5  =0
+# lessthan10 = 0
+# other = 0
+# for Qustion in range (1, 41):
+#     #prints initial board and proposed solutions
+#     print("\n  Problem", Qustion, ":")
+#     game.boards[Qustion].printBoard()
+
+#     start = time.time()
+#     x = BFS(game.boards[Qustion])
+#     finish = time.time()
+#     print("Solution:")
+#     x.printBoard()
+#     print(x.moves_made)
+#     time_taken = finish - start
+#     if time_taken <3:
+#         lessthan3 +=1
+#     elif time_taken <5:
+#         lessthan5 +=1
+#     elif time_taken <10:
+#         lessthan10 +=1
+#     else:
+#         other +=1
+
+
+#     times.append(time_taken)
+#     print("Time taken:", time_taken)
+
+# total = 0.0
+# for num in times:
+#     total+= num
+# average = total/len(times)
+# print("Average Time Taken:", average)
+# print("Less than 3s:", lessthan3)
+# print("Less than 5s:", lessthan5)
+# print("Less than 10s:", lessthan10)
+# print("Other", other)
 
 #class inheritance structure
 #game.boards[problem_No].board
