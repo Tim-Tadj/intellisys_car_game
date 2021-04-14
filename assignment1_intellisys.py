@@ -4,6 +4,7 @@ import sys
 import copy
 import time
 import queue
+from itertools import count
 
 class car(): #parameter definitions for each car in problem
     def __init__(self):
@@ -154,6 +155,17 @@ class boardobj(car): #contains the board
                     else:
                         break
         return next_states
+
+    def heuristic_val(self):
+        num = 0
+        stringboard = self.boardToString()
+        for i in range(12, 17):
+            if stringboard != '.' and num >= 2:
+                num += 1
+            if stringboard == "X":
+                num += 1
+
+        return num - 2 + len(self.moves_made)
     
 
 class Game(boardobj): #stores all game boards
@@ -275,22 +287,59 @@ def Iterative_d(initial_board):
         if result !=False:
             return result
 
-A_star(initial_board):
+def A_star(initial_board):
     Prio_Q = queue.PriorityQueue()
-    Prio_Q.put((1, initial_board))
+    Order = dict()
+    Order[initial_board.heuristic_val()] = count()
+    Prio_Q.put((initial_board.heuristic_val(), Order[initial_board.heuristic_val()], initial_board))
     current_state = initial_board
     discovered = set()
 
+
     while not Prio_Q.empty():
-        current_state = Prio_Q.get()[1]
+        current_state = Prio_Q.get()[2]
+        if current_state.win():
+            return current_state
+        stringboard = current_state.boardToString()
+        if stringboard not in discovered:
+            discovered.add(stringboard)
+            temp_nextstates = current_state.expand()
+            for next_state in temp_nextstates:
+                NV=next_state.heuristic_val()
+                if(NV not in Order):
+                    Order[NV]=count()
+                Prio_Q.put((NV, next(Order[NV]), next_state))
+    return False
+
+def A_star_v2(initial_board):
+    Prio_Q = queue.PriorityQueue()
+    unique = count()
+    Prio_Q.put((initial_board.heuristic_val(), unique, initial_board))
+    current_state = initial_board
+    discovered = set()
+
+
+    while not Prio_Q.empty():
+        current_state = Prio_Q.get()[2]
+        if current_state.win():
+            return current_state
+        stringboard = current_state.boardToString()
+        if stringboard not in discovered:
+            discovered.add(stringboard)
+            temp_nextstates = current_state.expand()
+            for next_state in temp_nextstates:
+                NV=next_state.heuristic_val()
+                Prio_Q.put((NV, next(unique)+ 1000000*len(next_state.moves_made), next_state))
+    return False
+            
         
 
 
 game = Game()
 
-x = game.boards[13]
+x = game.boards[2]
 start =  time.time()
-x = Iterative_d(x)
+x = A_star(x)
 finish = time.time()
 if x is not False:
     print(x.moves_made)
