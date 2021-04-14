@@ -195,6 +195,9 @@ class boardobj(car): #contains the board
         next_states = []
         moves = []
         for key, car in self.cars.items():
+            if self.moves_made:
+                if self.moves_made[-1][-3] == key:
+                    continue
             
             #look for move at head of car
             boarder = car.dimension[car.isHorizontal]+1
@@ -309,21 +312,28 @@ class Game(boardobj): #stores all game boards
         file.close()
 
 def BFS(initial_board):
-    BFSqueue = queue.Queue()
-    BFSqueue.put(initial_board)
+    BFSqueue = []
+
+    BFSqueue.append(initial_board)
     current_state = initial_board
     discovered = set()
     count = 0
-    while not current_state.win() and not BFSqueue.empty():
-        count +=1
-        current_state = BFSqueue.get()
+    while BFSqueue:
+        current_state = BFSqueue.pop(0)
+
+        if current_state.win():
+            print(count)
+            return current_state
+
         stringboard= current_state.boardToString()
         if stringboard not in discovered:
             temp_nextstates = current_state.expand_multiple_test()
+            count += 1
+            
             for next_state in temp_nextstates:
-                BFSqueue.put(next_state)
+                BFSqueue.append(next_state)
             discovered.add(stringboard)
-    return current_state
+    return False
 
 def DFS(initial_board):
     DFSstack = queue.LifoQueue()
@@ -339,12 +349,44 @@ def DFS(initial_board):
             discovered.append(current_state.board)
     return current_state
 
+def DepthLimitedSearch(initial_board, depth_limit):
+    DLSstack = [initial_board]
+    current_state = initial_board
+    discovered = set()
+    SENTINEL = object()
+    while DLSstack:
+        current_state = DLSstack.pop()
+        if current_state == SENTINEL:
+            depth_limit +=1
+        elif current_state.win():
+            return current_state
+        elif depth_limit != 0:
+            print(current_state.moves_made)
+            depth_limit -=1
+            DLSstack.append(SENTINEL)
+            stringboard= current_state.boardToString()
+            if stringboard not in discovered:
+                temp_nextstates = current_state.expand_multiple_test()
+                for next_state in temp_nextstates:
+                    DLSstack.append(next_state)
+                discovered.add(stringboard)
+
+    return False
     
 def Iterative_d(initial_board):
     
     pass
 
 game = Game()
+
+# x = game.boards[1]
+
+# x = BFS(x)
+# if x is not False:
+#     print(x.moves_made)
+
+
+
 times = []
 lessthan3 = 0
 lessthan5  =0
