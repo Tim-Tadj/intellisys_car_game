@@ -3,8 +3,18 @@ import os
 import sys
 import copy
 import time
+import multiprocessing
+import random
 import queue
 from itertools import count
+
+checked_cars = set()
+
+class Timeout(Exception):
+    pass
+
+def handler(sig, frame):
+    raise Timeout
 
 class car(): #parameter definitions for each car in problem
     def __init__(self):
@@ -23,10 +33,11 @@ class boardobj(car): #contains the board
         self.solution = "" #solution read in from file
         self.cars = {} #all car types with parameters
         self.moves_made = [] #moves made to get to this point
-        self.moves_made_len =0
+        self.stringboard =""
 
     def stringToBoard(self, str1): #make board and understand cars wihtin it
         #storing board in 2d array
+        self.stringboard=str1
         for i in range(6):
             for j in range(6):
                 char1 = str1[i*6+j]       
@@ -123,14 +134,13 @@ class boardobj(car): #contains the board
                         move += key + car.isVertical * 'U' + car.isHorizontal * 'L' + str(movNum)#make move symbol
                         temp_board = copy.deepcopy(self) #use tempboard to append to list of boards
                         temp_board.moves_made.append(move) #keep track of move
-                        temp_board.moves_made_len += 1
                         for j in range(car.size):
                             temp_board.board[car.dimension[0] + (car.isVertical * j)][car.dimension[1] + (car.isHorizontal * j)] = "."
                             
                         for j in range(car.size):
                             temp_board.board[car.dimension[0] - (car.isVertical * (movNum - j))][car.dimension[1] - (car.isHorizontal * (movNum - j))] = key
                         temp_board.cars[key].dimension = [car.dimension[0]-movNum*car.isVertical, car.dimension[1]-movNum*car.isHorizontal]
-
+                        temp_board.stringboard = temp_board.boardToString()
                         next_states.append(temp_board) #append to list of boards
                     else:
                         break
@@ -147,28 +157,105 @@ class boardobj(car): #contains the board
                         move += key + car.isVertical * 'D' + car.isHorizontal * 'R' + str(movNum)#make move symbol
                         temp_board = copy.deepcopy(self) #use tempboard to append to list of boards
                         temp_board.moves_made.append(move) #keep track of move
-                        temp_board.moves_made_len += 1
                         for j in range(car.size):
                             temp_board.board[car.dimension[0] + (car.isVertical * j)][car.dimension[1] + (car.isHorizontal * j)] = "."
                         
                         for j in range(car.size):
                             temp_board.board[car.dimension[0] + (car.isVertical * (movNum + j))][car.dimension[1] + (car.isHorizontal * (movNum + j))] = key
                         temp_board.cars[key].dimension = [car.dimension[0]+movNum*car.isVertical, car.dimension[1]+movNum*car.isHorizontal]
+                        temp_board.stringboard = temp_board.boardToString()
                         next_states.append(temp_board) #append to list of boards
                     else:
                         break
         return next_states
+    def Blocked_val(self, car_char):
+        
+        global checked_cars # needs to be global as having recursion effect this would ruin our solution
+        current_car_obj = self.cars.get(car_char)
+        # print(car_char)
+        # current_car_obj.properties()
+        v_val = current_car_obj.dimension[0]
+        h_val = current_car_obj.dimension[1]
+        num = 0 #our heuristic val of the state
+        if current_car_obj.size == 3 and current_car_obj.isVertical: # for vertical car of size 3
+            
+            for i in range(v_val+3, 6): #for tail 
+                if self.board[i][h_val] != '.' : # check if piece is a car
+                    num+=1
+                    if  self.board[i][h_val] not in checked_cars:
+                        checked_cars.add(self.board[i][h_val]) # if not in checked cars add to checked cars
+                        num+=self.Blocked_val(self.board[i][h_val]) #recursivly add to our heuristic val the heuristic val of the block
+            if h_val > self.cars['X'].dimension[1]: #return if it isnt front of x as it can only go down 
+                return num
+            for i in range(v_val-1, -1, -1): #for head
+                if self.board[i][h_val] != '.' :
+                    num+=1
+                    if  self.board[i][h_val] not in checked_cars:
+                        checked_cars.add(self.board[i][h_val]) 
+                        num+=self.Blocked_val(self.board[i][h_val])
+
+        elif current_car_obj.size == 3 and current_car_obj.isHorizontal: # for horizontal car of size 3 #needs fix
+            if h_val > 2: # has to move left if its on the right hand side of the board
+                for i in range(h_val-1, -1, -1): #head
+                    if self.board[v_val][i] != '.' :
+                        num+=1
+                        if  self.board[v_val][i] not in checked_cars:
+                            checked_cars.add(self.board[v_val][i])
+                            num+=self.Blocked_val(self.board[v_val][i])
+            else: # has to move right if its on the left hand side of the board
+                for i in range(h_val+3, 6): #tail
+                    if self.board[v_val][i] != '.' :
+                        num+=1
+                        if  self.board[v_val][h_val] not in checked_cars:
+                            checked_cars.add(self.board[v_val][i])
+                            num+=self.Blocked_val(self.board[v_val][i])
+        elif current_car_obj.isVertical: #if car is vertical and size 2
+            for i in range(v_val-1, -1, -1): #head
+                if self.board[i][h_val] !='.':
+                    num+=1
+                    if self.board[i][h_val] not in checked_cars:
+                        checked_cars.add(self.board[i][h_val])
+                        num += self.Blocked_val(self.board[i][h_val])
+            for i in range(h_val+2, 6): #tail
+                if self.board[v_val][i] !='.':
+                    num+=1
+                    if self.board[v_val][i] not in checked_cars:
+                        checked_cars.add(self.board[v_val][i])
+                        num += self.Blocked_val(self.board[v_val][i])
+        elif current_car_obj.size == 2: #if car is size 2
+            for i in range(v_val-1, -1, -1): #head
+                if self.board[i][h_val] !='.':
+                    num+=1
+                    if self.board[i][h_val] not in checked_cars:
+                        checked_cars.add(self.board[i][h_val])
+                        num += self.Blocked_val(self.board[i][h_val])
+            for i in range(h_val+2, 6): #tail
+                num+=1
+                if self.board[v_val][i] != '.':
+                    if self.board[v_val][i] not in checked_cars:
+                        checked_cars.add(self.board[v_val][i])
+                        num += self.Blocked_val(self.board[v_val][i])
+
+        return num
+
 
     def heuristic_val(self):
         num = 0
-        stringboard = self.boardToString()
-        for i in range(12, 17):
-            if stringboard != '.' and num >= 2:
-                num += 1
-            if stringboard == "X":
-                num += 1
+        global checked_cars 
+        checked_cars.clear()
+        checked_cars.add("X")
+        for i in range(5, 0, -1):
+            if self.board[2][i] == "X":
+                break
+            elif self.board[2][i] != '.':
+                # print(self.board[2][i])
+                num += self.Blocked_val(self.board[2][i])
+        # print(num)
+        return num + len(self.moves_made)
 
-        return num - 2 + len(self.moves_made)
+    
+
+
     
 
 class Game(boardobj): #stores all game boards
@@ -248,6 +335,26 @@ def BFS(initial_board):
             discovered.add(stringboard)
     return False
 
+def BFSv2(initial_board):
+    BFSqueue = []
+
+    BFSqueue.append(initial_board)
+    current_state = initial_board
+    discovered = set()
+    count = 0
+    while not current_state.win():
+        
+
+        temp_nextstates = current_state.expand()
+        count += 1
+        for next_state in temp_nextstates:
+            if next_state.stringboard not in discovered:
+                BFSqueue.append(next_state)
+                discovered.add(next_state.stringboard)
+        current_state = BFSqueue.pop(0)
+    print(count)       
+    return(current_state)
+
 def DFS(initial_board):
     DFSstack = queue.LifoQueue()
     DFSstack.put(initial_board)
@@ -292,43 +399,106 @@ def Iterative_d(initial_board):
 
 def A_star(initial_board):
     Prio_Q = queue.PriorityQueue()
-    unique = count()
-    Prio_Q.put((initial_board.heuristic_val(), unique, initial_board))
+    Order = dict()
+    Order[initial_board.heuristic_val()] = count()
+    Prio_Q.put((initial_board.heuristic_val(), Order[initial_board.heuristic_val()], initial_board))
     current_state = initial_board
-    discovered = dict()
+    discovered = set()
+    counter = 0
+
 
     while not Prio_Q.empty():
-
         current_state = Prio_Q.get()[2]
         if current_state.win():
+            print(counter)
             return current_state
-
         stringboard = current_state.boardToString()
-        if stringboard not in discovered or discovered[stringboard] < current_state.moves_made_len:
-            discovered[stringboard] = current_state.moves_made_len
+        if stringboard not in discovered:
+            discovered.add(stringboard)
+            counter +=1
             temp_nextstates = current_state.expand()
-
             for next_state in temp_nextstates:
                 NV=next_state.heuristic_val()
-                Prio_Q.put((NV, next(unique), next_state))
+                if(NV not in Order):
+                    Order[NV]=count()
+                Prio_Q.put((NV, next(Order[NV]), next_state))
     return False
 
+def A_starv2(initial_board):
+    Prio_Q = queue.PriorityQueue()
+    Order = count()
+    Prio_Q.put((initial_board.heuristic_val(), Order, initial_board))
+    current_state = initial_board
+    discovered = set()
+    counter = 0
+
+    while not Prio_Q.empty():
+        current_state = Prio_Q.get()[2]
+        if current_state.win():
+            print(counter)
+            return current_state
+        stringboard = current_state.boardToString()
+        if stringboard not in discovered:
+            discovered.add(stringboard)
+            counter+=1
+            temp_nextstates = current_state.expand()
+            for next_state in temp_nextstates:
+                NV=next_state.heuristic_val()
+                Prio_Q.put((NV, next(Order) + 1000000*len(next_state.moves_made), next_state))
+    return False
+
+def hill_climbing(initial_board):
+    unique = count()
+    discovered = set()
+    current_state = initial_board
+
+    while not initial_board.win():
+        local_states = queue.PriorityQueue()
+        next_local_states = current_state.expand()
+        
+
+
+
+def random_restart(initial_board):
+    random_boards = []
+    BFSqueue = []
+
+    BFSqueue.append(initial_board)
+    current_state = initial_board
+    discovered = set()
+    count = 0
+    while BFSqueue:
+        current_state = BFSqueue.pop(0)
+        # print(current_state.moves_made)
+        stringboard= current_state.boardToString()
+        if stringboard not in discovered and len(current_state.moves_made) < 5:
+            temp_nextstates = current_state.expand()
+            count += 1
+            
+            for next_state in temp_nextstates:
+                BFSqueue.append(next_state)
+                random_boards.append(next_state)
+            discovered.add(stringboard)
+    return random_boards
+
+def random_restartv2(initial_board):
+    node_expand_list = initial_board.expand() #initilise expand list
+    for i in range(random.randint(0, 4)): #go to random node depth (max of 5)
+        node_expand_list = node_expand_list[random.randint(0, len(node_expand_list)-1)].expand() # remake node expand list with a randomly chosen next node
+    return node_expand_list[random.randint(0, len(node_expand_list)-1)] # return randomly chosen node
             
         
 
 
 game = Game()
-
-x = game.boards[2]
-
-start =  time.time()
-x = BFS(x)
+x = game.boards[1]
+x.printBoard()
+start = time.time()
+x= A_star(x)
 finish = time.time()
-if x is not False:
-    print(x.moves_made)
-    print(finish-start)
-
-
+x.printBoard()
+print(x.moves_made)
+print(finish-start)
 
 
 # times = []
