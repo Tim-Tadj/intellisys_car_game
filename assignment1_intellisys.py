@@ -130,39 +130,39 @@ class boardobj(car): #contains the board
 
     def expand(self):
         next_states = []
-        for key, car in self.cars.items():
-            if self.moves_made:
-                if self.moves_made[-1][-3] == key:
+        for key, car in self.cars.items(): # go through all cars
+            if self.moves_made: # if car was in the previous move, skip this car
+                if self.moves_made[-1][-3] == key: 
                     continue
             
             #look for move at head of car
-            boarder = car.dimension[car.isHorizontal]+1
+            boarder = car.dimension[car.isHorizontal]+1 #determine the distance between the car and the boarder to stay in bounds
             for i in range(1, boarder):
-                h_domain = car.dimension[0] - car.isVertical * i
-                v_domain = car.dimension[1] - car.isHorizontal * i
-                if(h_domain >= 0 and v_domain >=0):
+                h_domain = car.dimension[0] - car.isVertical * i #look at the ith position infrom tof the car
+                v_domain = car.dimension[1] - car.isHorizontal * i #look at the ith position infrom tof the car
+                if(h_domain >= 0 and v_domain >=0): #bounds check
                     if (self.board[h_domain][v_domain] == '.'): #check position before head of car
                         move = ""
                         movNum = i
                         move += key + car.isVertical * 'U' + car.isHorizontal * 'L' + str(movNum)#make move symbol
                         temp_board = copy.deepcopy(self) #use tempboard to append to list of boards
                         temp_board.moves_made.append(move) #keep track of move
-                        for j in range(car.size):
+                        for j in range(car.size): #remove car from board
                             temp_board.board[car.dimension[0] + (car.isVertical * j)][car.dimension[1] + (car.isHorizontal * j)] = "."
                             
-                        for j in range(car.size):
+                        for j in range(car.size): #add car in new position
                             temp_board.board[car.dimension[0] - (car.isVertical * (movNum - j))][car.dimension[1] - (car.isHorizontal * (movNum - j))] = key
-                        temp_board.cars[key].dimension = [car.dimension[0]-movNum*car.isVertical, car.dimension[1]-movNum*car.isHorizontal]
-                        temp_board.stringboard = temp_board.boardToString()
+                        temp_board.cars[key].dimension = [car.dimension[0]-movNum*car.isVertical, car.dimension[1]-movNum*car.isHorizontal] #update position of car
+                        temp_board.stringboard = temp_board.boardToString() #update stringboard
                         next_states.append(temp_board) #append to list of boards
-                    else:
+                    else: #if we find a car we can move anymore
                         break
             
             #look for move at tail of car
-            boarder = (7 - car.dimension[car.isHorizontal] - car.size)
+            boarder = (7 - car.dimension[car.isHorizontal] - car.size) #determine the distance between the car and the boarder to stay in bounds
             for i in range(1, boarder):
-                h_domain = car.dimension[0] + (car.isVertical * (car.size + i -1))
-                v_domain = car.dimension[1] + (car.isHorizontal * (car.size + i -1))
+                h_domain = car.dimension[0] + (car.isVertical * (car.size + i -1)) #look at the ith position behind the car
+                v_domain = car.dimension[1] + (car.isHorizontal * (car.size + i -1)) #look at the ith position behind the car
                 if(h_domain < 6 and v_domain < 6):
                     if (self.board[h_domain][v_domain] == '.'):
                         move = ""
@@ -170,21 +170,21 @@ class boardobj(car): #contains the board
                         move += key + car.isVertical * 'D' + car.isHorizontal * 'R' + str(movNum)#make move symbol
                         temp_board = copy.deepcopy(self) #use tempboard to append to list of boards
                         temp_board.moves_made.append(move) #keep track of move
-                        for j in range(car.size):
+                        for j in range(car.size): #remove car from board
                             temp_board.board[car.dimension[0] + (car.isVertical * j)][car.dimension[1] + (car.isHorizontal * j)] = "."
                         
-                        for j in range(car.size):
+                        for j in range(car.size): #add car in new position
                             temp_board.board[car.dimension[0] + (car.isVertical * (movNum + j))][car.dimension[1] + (car.isHorizontal * (movNum + j))] = key
-                        temp_board.cars[key].dimension = [car.dimension[0]+movNum*car.isVertical, car.dimension[1]+movNum*car.isHorizontal]
-                        temp_board.stringboard = temp_board.boardToString()
+                        temp_board.cars[key].dimension = [car.dimension[0]+movNum*car.isVertical, car.dimension[1]+movNum*car.isHorizontal] #update position of car
+                        temp_board.stringboard = temp_board.boardToString() #update stringboard
                         next_states.append(temp_board) #append to list of boards
-                    else:
+                    else:#if we find a car we can move anymore
                         break
         return next_states
 
     def heuristic_val(self):
         num = 0
-        for i in range(5, 0, -1):
+        for i in range(5, 0, -1): #count number of cars in front of x
             if self.board[2][i] == "X":
                 break
             elif self.board[2][i] != '.':
@@ -258,40 +258,41 @@ def BFS(initial_board, file):
     global max_time_to_run
     print("Attempting BFS for", str(max_time_to_run)+"s", file = file)
     while BFSqueue:
-        current_state = BFSqueue.pop(0)
+        current_state = BFSqueue.pop(0) #used as Queue
 
-        if current_state.win():
+        if current_state.win(): #check win
             print("States explored:", count, file =file)
             return current_state
-        elif time.time()-start > max_time_to_run:
+        elif time.time()-start > max_time_to_run: #check if we have run for too long
             print("Failed", file =  file)
             return -1
 
-        stringboard= current_state.boardToString()
-        if stringboard not in discovered:
+        stringboard= current_state.boardToString() #make string board to compare with/ put state in discovered
+        if stringboard not in discovered: #if state is unique we will expand and add state to queue
             temp_nextstates = current_state.expand()
             count += 1
             
-            for next_state in temp_nextstates:
+            for next_state in temp_nextstates: #add states to queue
                 BFSqueue.append(next_state)
-            discovered.add(stringboard)
+            discovered.add(stringboard) #add current state to dicovered set
     return False
 
 def DepthLimitedSearch(initial_board, depth_limit, start, file):
-    DLSstack = [initial_board]
+    DLSstack = [initial_board] #use as stack
     current_state = initial_board
     discovered = dict()
     global max_time_to_run
     counter = 0
     
     while DLSstack:
-        current_state = DLSstack.pop()
-        if current_state.win():
+        current_state = DLSstack.pop() #used as stack
+        if current_state.win(): #return if win
             return [current_state, counter]
-        elif time.time()-start > max_time_to_run:
+        elif time.time()-start > max_time_to_run:#check we havent run out of time
             print("Failed", file = file)
             return -1
-        stringboard= current_state.boardToString()
+        stringboard= current_state.boardToString() #make string board to compare with/ put state in discovered
+        #if we have reachd the depth limit or the state is discovered, dont add any more states
         if (stringboard not in discovered or len(current_state.moves_made) < discovered[stringboard]) and len(current_state.moves_made) < depth_limit:
             temp_nextstates = current_state.expand()
             counter +=1
@@ -300,7 +301,7 @@ def DepthLimitedSearch(initial_board, depth_limit, start, file):
                 DLSstack.append(next_state)
             discovered[stringboard] = len(current_state.moves_made)
 
-    return counter
+    return counter #if exited without win or failure, return how many states are explored
     
 def Iterative_d(initial_board, file):
     start = time.time()
@@ -311,17 +312,17 @@ def Iterative_d(initial_board, file):
     while True:
         count+=1
         result = DepthLimitedSearch(initial_board, count, start, file)
-        if type(result) != int:
+        if type(result) != int: # if we have found a win return result and print the states explored
             print("States explored:", counter+result[1], file =file)
             return result[0]
-        elif (result == -1):
+        elif (result == -1): #if failed return out
             return -1
         counter += result
 
 def A_star(initial_board, file):
     Prio_Q = queue.PriorityQueue()
     Order = dict()
-    Order[initial_board.heuristic_val()] = count()
+    Order[initial_board.heuristic_val()] = count() #keeps track of order that the same heuristic has been found
     Prio_Q.put((initial_board.heuristic_val(), Order[initial_board.heuristic_val()], initial_board))
     current_state = initial_board
     discovered = set()
@@ -330,7 +331,7 @@ def A_star(initial_board, file):
     global max_time_to_run
     print("Attempting A star for", str(max_time_to_run)+"s", file =file)
     while not Prio_Q.empty():
-        current_state = Prio_Q.get()[2]
+        current_state = Prio_Q.get()[2] #get state from priority q 
         if current_state.win():
             print("States explored:", counter, file =file)
             return current_state
@@ -343,10 +344,10 @@ def A_star(initial_board, file):
             counter +=1
             temp_nextstates = current_state.expand()
             for next_state in temp_nextstates:
-                NV=next_state.heuristic_val()+ len(next_state.moves_made)
-                if(NV not in Order):
+                NV=next_state.heuristic_val()+ len(next_state.moves_made) # find the heuristic
+                if(NV not in Order):#add heuristic to dict if not present
                     Order[NV]=count()
-                Prio_Q.put((NV, next(Order[NV]), next_state))
+                Prio_Q.put((NV, next(Order[NV]), next_state)) #add to priority queue with heuristc and the order
     return False
 
 def random_restart(initial_board):
@@ -378,16 +379,17 @@ def random_restartv2(initial_board):
     return node_expand_list[random.randint(0, len(node_expand_list)-1)] # return randomly chosen node
 
 def hill_climbing(initial_board, file): #random restart and greedy first
-    discovered = dict()
+    discovered = dict() # stores the string board and keep track of how namy move it took to get to that board
     current_state = initial_board
-    neighbour_counter = 0
-    local_states = [current_state]
+    neighbour_counter = 0 #counts sideways moves
+    local_states = [current_state] #stores states with best heuristics
     start = time.time()
+    better_found = False
     counter =0
     global max_time_to_run
     print("Attempting Hill Climbing for", str(max_time_to_run)+"s", file =file)
     while not current_state.win() :
-        if neighbour_counter > 50 or not local_states: #random restart
+        if neighbour_counter > 50 or not local_states: #random restart if win not found or too many sideways moves done
             local_states = [random_restartv2(initial_board)]
             neighbour_counter = 0
         if time.time()-start > max_time_to_run:
@@ -397,14 +399,15 @@ def hill_climbing(initial_board, file): #random restart and greedy first
         counter +=1
         next_local_states = current_state.expand()
         for state in next_local_states:
+            #if not discovered or state has less moves than a previously found state
             if state.stringboard not in discovered or len(state.moves_made) < discovered[state.stringboard]:
                 discovered[state.stringboard] = len(state.moves_made)
-                if state.heuristic_val() < current_state.heuristic_val():
+                if state.heuristic_val() < current_state.heuristic_val(): # if heuristic is better then replace current state
                     current_state = state
                     local_states.clear()
-                if state.heuristic_val() == current_state.heuristic_val():
+                if state.heuristic_val() == current_state.heuristic_val(): # if found state with equal heuristic, add to stack (neighbour found)
                     local_states.append(state)
-                    neighbour_counter +=1
+                    neighbour_counter +=1 #increment neighbour counter
     print("States explored:", counter, file =file)
     return current_state
 
@@ -423,7 +426,7 @@ with open(os.path.join(sys.path[0], "output.txt"), "w") as output:
             print("CPU time:", time.time()-start,"s",  file = output)
             print("Depth:", len(result.moves_made),  file = output)
             print("Difference in solution length:", len(result.moves_made) - len(initial_board.solution)//4,  file = output)
-            continue
+            
         start = time.time()
         result = Iterative_d(initial_board, output)
         if result != -1:
@@ -431,7 +434,7 @@ with open(os.path.join(sys.path[0], "output.txt"), "w") as output:
             print("CPU time:", time.time()-start,"s", file = output)
             print("Depth:", len(result.moves_made),  file = output)
             print("Difference in solution length:", len(result.moves_made) - len(initial_board.solution)//4,  file = output)
-            continue
+            
         start = time.time()
         result = A_star(initial_board, output)
         if result != -1:
@@ -439,7 +442,7 @@ with open(os.path.join(sys.path[0], "output.txt"), "w") as output:
             print("CPU time:", time.time()-start,"s", file = output)
             print("Depth:", len(result.moves_made),  file = output)
             print("Difference in solution length:", len(result.moves_made) - len(initial_board.solution)//4,  file = output)
-            continue
+            
         start = time.time()
         result = hill_climbing(initial_board, output)
         if result != -1:
@@ -447,4 +450,4 @@ with open(os.path.join(sys.path[0], "output.txt"), "w") as output:
             print("CPU time:", time.time()-start,"s", file = output)
             print("Depth:", len(result.moves_made),  file = output)
             print("Difference in solution length:", len(result.moves_made) - len(initial_board.solution)//4,  file = output)
-            continue
+            
