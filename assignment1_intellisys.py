@@ -1,4 +1,5 @@
 # work of Timothy Tadj s5178358
+max_time_to_run = 10 #time given for each search to run
 import os
 import sys
 import copy
@@ -6,7 +7,6 @@ import time
 import random
 import queue
 from itertools import count
-max_time_to_run = 10 #time given for each search to run
 
 class Timeout(Exception):
     pass
